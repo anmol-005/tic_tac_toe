@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: tic-tac-toe-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  - type: web
+    name: tic-tac-toe-frontend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: serve -s build
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: REACT_APP_API_URL
+        value: https://tic-tac-toe-backend.onrender.com 
