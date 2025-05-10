@@ -9,6 +9,8 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: CORS_ORIGIN
+        value: https://tic-tac-toe-frontend.onrender.com
 
   - type: web
     name: tic-tac-toe-frontend
@@ -19,4 +21,6 @@ services:
       - key: NODE_ENV
         value: production
       - key: REACT_APP_API_URL
+        value: https://tic-tac-toe-backend.onrender.com
+      - key: REACT_APP_SOCKET_URL
         value: https://tic-tac-toe-backend.onrender.com 

@@ -7,7 +7,7 @@ interface MultiplayerGameProps {
 }
 
 const SOCKET_URL = process.env.NODE_ENV === 'production'
-  ? 'https://your-backend-url.onrender.com'
+  ? 'https://tic-tac-toe-backend.onrender.com'
   : 'http://localhost:5000';
 
 const MultiplayerGame: React.FC<MultiplayerGameProps> = ({ onBack }) => {
@@ -21,8 +21,23 @@ const MultiplayerGame: React.FC<MultiplayerGameProps> = ({ onBack }) => {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
-    const newSocket = io(SOCKET_URL);
+    const newSocket = io(SOCKET_URL, {
+      withCredentials: true,
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000
+    });
+
     setSocket(newSocket);
+
+    newSocket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    newSocket.on('connect_error', (error) => {
+      console.error('Connection error:', error);
+      setError('Failed to connect to server');
+    });
 
     newSocket.on('roomCreated', (id: string) => {
       setRoomId(id);

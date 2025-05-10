@@ -5,7 +5,13 @@ const cors = require('cors');
 const path = require('path');
 
 const app = express();
-app.use(cors());
+
+// Configure CORS for Express
+app.use(cors({
+  origin: ['https://tic-tac-toe-frontend.onrender.com', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
+}));
 
 // Serve static files from the React app
 const buildPath = path.join(__dirname, 'build');
@@ -17,12 +23,14 @@ app.get('*', (req, res) => {
 });
 
 const server = http.createServer(app);
+
+// Configure CORS for Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: process.env.NODE_ENV === 'production' 
-      ? ['https://tic-tac-toe-frontend.onrender.com', 'http://localhost:3000']
-      : "http://localhost:3000",
-    methods: ["GET", "POST"]
+    origin: ['https://tic-tac-toe-frontend.onrender.com', 'http://localhost:3000'],
+    methods: ['GET', 'POST'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
   }
 });
 
