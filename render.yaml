@@ -3,10 +3,12 @@ services:
     name: tic-tac-toe-backend
     env: node
     buildCommand: npm install
-    startCommand: node server.js
+    startCommand: cd build && node server.js
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 10000
 
   - type: web
     name: tic-tac-toe-frontend
